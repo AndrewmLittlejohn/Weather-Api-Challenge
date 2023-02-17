@@ -31,7 +31,7 @@ var day1temp = $('#day1temp');
 var day1wind = $('#day1wind');
 var day1humidity = $('#day1humidity');
 var day1date = document.querySelector('#day1date');
-// var oneDesc = document.createElement('span');
+var oneDesc = document.createElement('span');
 var oneTemp = document.createElement('span');
 var oneWind = document.createElement('span');
 var oneDate = document.createElement('span');
@@ -44,7 +44,7 @@ var day2temp = $('#day2temp');
 var day2wind = $('#day2wind');
 var day2humidity = $('#day2humidity');
 var day2date = document.querySelector('#day2date');
-// var twoDesc = document.createElement('span');
+var twoDesc = document.createElement('span');
 var twoTemp = document.createElement('span');
 var twoWind = document.createElement('span');
 var twoDate = document.createElement('span');
@@ -57,7 +57,7 @@ var day3temp = $('#day3temp');
 var day3wind = $('#day3wind');
 var day3humidity = $('#day3humidity');
 var day3date = document.querySelector('#day3date');
-// var threeDesc = document.createElement('span');
+var threeDesc = document.createElement('span');
 var threeTemp = document.createElement('span');
 var threeWind = document.createElement('span');
 var threeDate = document.createElement('span');
@@ -70,7 +70,7 @@ var day4temp = $('#day4temp');
 var day4wind = $('#day4wind');
 var day4humidity = $('#day4humidity');
 var day4date = document.querySelector('#day4date');
-// var fourDesc = document.createElement('span');
+var fourDesc = document.createElement('span');
 var fourTemp = document.createElement('span');
 var fourWind = document.createElement('span');
 var fourDate = document.createElement('span');
@@ -83,7 +83,7 @@ var day5temp = $('#day5temp');
 var day5wind = $('#day5wind');
 var day5humidity = $('#day5humidity');
 var day5date = document.querySelector('#day5date');
-// var fiveDesc = document.createElement('span');
+var fiveDesc = document.createElement('span');
 var fiveTemp = document.createElement('span');
 var fiveWind = document.createElement('span');
 var fiveDate = document.createElement('span');
@@ -96,7 +96,7 @@ var cS = document.createElement('i');
 cS.classList.add('fa-regular');
 cS.classList.add('fa-sun');
 var fC = document.createElement('i');
-fC.classList.add('fa-solid', 'fa-cloud-sun')
+fC.classList.add('fa-solid', 'fa-cloud-sun');
 var sC = document.createElement('i');
 sC.classList.add('fa-solid', 'fa-cloud');
 var bC = document.createElement('i');
@@ -216,7 +216,9 @@ list.innerHTML = '';
 
             // Description - will be used pick icoin via if statement
               midDayDescription.push(mDd);
-              // console.log(midDayDescription);
+              oneDesc.textContent = midDayDescription[0];
+              day1desc.append(oneDesc);
+
               if(midDayDescription[0] == "Clear") {
                 day1desc.append(cS);
               } if(midDayDescription[0] == "Clouds") {
@@ -243,8 +245,11 @@ list.innerHTML = '';
               day1wind.append(oneWind);
               
               /* #endregion */
-                   /*#regionmain day2 */
-              
+/*#regionmain day2 */
+
+              twoDesc.textContent = midDayDescription[1];
+              day2desc.append(twoDesc);
+
               if(midDayDescription[1] == "Clear") {
                 day2desc.append(cS);
               } if(midDayDescription[1] == "Clouds") {
@@ -270,7 +275,10 @@ list.innerHTML = '';
               /* #endregion */
 
 /* #regionmain day 3 */
-            
+
+              threeDesc.textContent = midDayDescription[2];
+              day3desc.append(threeDesc);
+
               if(midDayDescription[2] == "Clear") {
                 day3desc.append(cS);
               } if(midDayDescription[2] == "Clouds") {
@@ -296,6 +304,8 @@ list.innerHTML = '';
 /* #endregion */ 
       
 /* #regionmain day4 */
+              fourDesc.textContent = midDayDescription[3];
+              day4desc.append(fourDesc);
         
               if(midDayDescription[3] == "Clear") {
                 day4desc.append(cS);
@@ -322,6 +332,9 @@ list.innerHTML = '';
 /* #endregion */
 
 /* #region Main day 5 */
+
+              fiveDesc.textContent = midDayDescription[4];
+              day5desc.append(fiveDesc);
 
               if(midDayDescription[4] == "Clear") {
                 day5desc.append(cS);
@@ -360,20 +373,30 @@ function storeSearch() {
   localStorage.setItem("City,ST", JSON.stringify(searches));
   }
 
+var place;
 function renderSearches () {
 // clears seach field
   searchEntry.innerHTML = '';
   // searchCount.textContent = searches.length;
   for (var i = 0; i < searches.length; i++) {
-    var place = searches[i];
+     place = searches[i];
 
     var li = document.createElement("li");
     li.textContent = place;
     li.setAttribute("data-index", i);
-    li.setAttribute('type', 'button')
+    li.setAttribute('type', 'button');
     li.setAttribute('id', i);
+    // li.setAttribute('content', `${place}`)
+    // recents.push(place)
+
+    console.log(place)
     li.addEventListener("click", function(){
-      console.log(`City Selected was ${place}`)
+
+         // will clear the old info so the new info can populate
+      // resetCurrent()
+      // we need an API call that uses the city name that is clicked, instead of the name listed in the search bar
+
+   
     })
       list.appendChild(li);
 
@@ -390,15 +413,12 @@ function renderSearches () {
   event.preventDefault();
   resetCurrent();
   getApiCurrent();
-
  
   var searchInputPresent = searchEntry.value.trim();
-
 
   if (searchInputPresent === '') {
     return;
   }
-
   searches.push(searchInputPresent);
   searchEntry.value = '';
 
