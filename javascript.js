@@ -91,6 +91,7 @@ var fiveHumidity = document.createElement('span');
 
 day5date.innerHTML = dayjs().add(5,'day').format('MMM, D');
 
+
 var cS = document.createElement('i');
 cS.classList.add('fa-regular');
 cS.classList.add('fa-sun');
@@ -110,6 +111,7 @@ var snow = document.createElement('i');
 snow.classList.add('fa-regular', 'fa-snowflake');
 var mist = document.createElement('i');
 mist.classList.add('fa-solid', 'fa-smog');
+
 
 var searches = [];
 var midDay = [];
@@ -175,7 +177,7 @@ list.innerHTML = '';
     // var searchInputCall = searchEntry.value.split(" ").join("").trim();
     var searchInputCall = searchEntry.value.trim();
 
-    // console.log(searchInputCall);
+    console.log(searchInputCall);
     var currentWeatherCall = 'https://api.openweathermap.org/data/2.5/forecast?q=' + searchInputCall + ',US&appid=39ff24e6b691ca65cee6319baa446835&units=imperial&per_page=5'; 
     
     fetch(currentWeatherCall)
@@ -198,10 +200,9 @@ list.innerHTML = '';
       windS.append(speed);
       windG.append(gust);
 
-      console.log(searchInputCall);
-      console.log(data);
-      console.log(data.city.name);
-
+      // console.log(searchInputCall);
+      // console.log(data);
+      // console.log(data.city.name);
 /* #regionmain day 1 */
       for (var i = 0; i < data.list.length; i++) {
       // midDay = data.list[i].dt_txt;
@@ -371,19 +372,19 @@ function renderSearches () {
     li.setAttribute("data-index", i);
     li.setAttribute('type', 'button')
     li.setAttribute('id', i);
-    li.addEventListener("click", function(event){
-      event.preventDefault();
-      getApiCurrent();
-      console.log(place);
-      console.log(li.textContent);
-    });
+    li.addEventListener("click", function(){
+      console.log(`City Selected was ${place}`)
+    })
       list.appendChild(li);
+
+      if(list.children.length > 5){
+        list.removeChild(list.firstElementChild);
+ 
+      };
   }
-    if(list.children.length > 5){
-      list.removeChild(list.firstElementChild);
-      console.log('boom');
-    }
-};
+}
+
+
 
   submitBtn.addEventListener("click", function(event){
   event.preventDefault();
