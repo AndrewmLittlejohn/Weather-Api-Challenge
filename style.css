@@ -1,0 +1,46 @@
+body{
+    font-family: 'Manrope', sans-serif;
+    background-color: lavender;
+}
+
+#cnb{
+background-color: aquamarine;
+color: darkslategrey;
+}
+
+span {
+font-size: .8em;
+}
+
+.submit{
+    border-radius: 3px;
+    color: darkslategrey;
+    background-color: deepskyblue;
+    margin-top: 5%;
+    width: 55%;
+    }
+
+
+li{ 
+list-style: none;
+font-size: 20px;
+}
+
+.rf {
+font-size: 20px;
+}
+
+.cust1 {
+margin-left: 22%;
+}
+
+
+.a{
+display:none; 
+}
+
+#FiveDF {
+   margin-left: 15%;
+}
+
+
