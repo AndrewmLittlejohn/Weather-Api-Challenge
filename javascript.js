@@ -109,7 +109,7 @@ mist.classList.add('fa-solid', 'fa-smog');
 
 
 // var searches = [];
-let searches = JSON.parse(localStorage.getItem('City,ST'));
+let searches = JSON.parse(localStorage.getItem('City,ST')) || [];
 var midDay = [];
 var midDayHumidity = [];
 var midDayWind = [];
@@ -164,7 +164,7 @@ tS.remove();
 snow.remove();
 mist.remove();
 
-// list.innerHTML = '';
+list.innerHTML = '';
 
 }
 
@@ -672,8 +672,14 @@ function renderSearches () {
   renderSearches();
   });
 
+  function loadStorage() {
   window.addEventListener('load', function (){
-    // let searches = JSON.parse(localStorage.getItem('City,ST'));
+    if(JSON.parse(localStorage.getItem('City,ST')) === ''){
+      return
+    }
+    else{
+    
+    let searches = JSON.parse(localStorage.getItem('City,ST'));
 
     for (var i = 0; i < searches.length; i++) {
       place = searches[i];
@@ -892,4 +898,7 @@ function renderSearches () {
       if(list.children.length > 5){
         list.removeChild(list.firstElementChild);
       };
-    }});
+    }}
+    window.removeEventListener('load', loadStorage);
+  })};
+  loadStorage();
