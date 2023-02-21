@@ -1,8 +1,3 @@
-// var testApiCall = 'https://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=39ff24e6b691ca65cee6319baa446835';
-// var testCall2 = 'https://api.openweathermap.org/geo/1.0/direct?q=Richmond,Virginia&limit=5&appid=39ff24e6b691ca65cee6319baa446835';
-// var currentWeatherCall = 'https://api.openweathermap.org/data/2.5/forecast?q=Richmond,VA,US&appid=39ff24e6b691ca65cee6319baa446835&units=imperial&per_page=5'; 
-
-// var dailyWeather = 'https://api.openweathermap.org/data/2.5/forecast?q=Richmond,VA,US&cnt=5&appid=39ff24e6b691ca65cee6319baa446835&units=imperial&per_page=5';
  /* #regionmain Variables */
 var submitBtn = document.querySelector('#submit');
 var searchEntry = document.querySelector('#citysearch');
@@ -172,10 +167,63 @@ list.innerHTML = '';
 
 }
 
-/* #region main - Current Weather*/
+function resetCurrent1(){
+  city.remove();
+  currentTemp.remove();
+  con.remove();
+  speed.remove();
+  gust.remove();
+  
+  midDay = [];
+  oneTemp.remove();
+  twoTemp.remove();
+  threeTemp.remove();
+  fourTemp.remove();
+  fiveTemp.remove();
+  
+  midDayHumidity = [];
+  oneHumidity.remove();
+  twoHumidity.remove();
+  threeHumidity.remove();
+  fourHumidity.remove();
+  fiveHumidity.remove();
+  
+  midDayWind = [];
+  oneWind.remove();
+  twoWind.remove();
+  threeWind.remove();
+  fourWind.remove();
+  fiveWind.remove();
+  
+  midDayDescription = [];
+  // oneDesc.remove();
+  // twoDesc.remove();
+  // threeDesc.remove();
+  // fourDesc.remove();
+  // fiveDesc.remove();
+  
+  cS.remove();
+  fC.remove();
+  sC.remove();
+  bC.remove();
+  sR.remove();
+  rN.remove();
+  tS.remove();
+  snow.remove();
+  mist.remove();
+  
+  // list.innerHTML = '';
+  
+  }
+
+
   function getApiCurrent(searchInputCall) {
     // var searchInputCall = searchEntry.value.split(" ").join("").trim();
     var searchInputCall = searchEntry.value.trim();
+
+    if( searchInputCall === ''){
+      return;
+    } else{
 
     console.log(searchInputCall);
     var currentWeatherCall = 'https://api.openweathermap.org/data/2.5/forecast?q=' + searchInputCall + ',US&appid=39ff24e6b691ca65cee6319baa446835&units=imperial&per_page=5'; 
@@ -362,10 +410,10 @@ list.innerHTML = '';
             
             } } 
             
-    } )}
+    } )}}
     
     
-/* #endregion */ 
+
   
 
 function storeSearch() {
@@ -387,13 +435,205 @@ function renderSearches () {
     li.setAttribute('type', 'button');
     li.setAttribute('id', i);
     // li.setAttribute('content', `${place}`)
-    // recents.push(place)
-
-    console.log(place)
+ 
+  
     li.addEventListener("click", function(){
 
+      function getApiCurrentFromRecent(currentCity) {
+        // var searchInputCall = searchEntry.value.split(" ").join("").trim();
+        // var searchInputCall = searchEntry.value.trim();
+    
+        // console.log(searchInputCall);
+        var currentWeatherCall = 'https://api.openweathermap.org/data/2.5/forecast?q=' + currentCity + ',US&appid=39ff24e6b691ca65cee6319baa446835&units=imperial&per_page=5'; 
+        
+        fetch(currentWeatherCall)
+        .then (function(response) {
+          return response.json();
+    
+        })
+        .then(function (data){
+    
+          city.textContent = data.city.name;
+          currentTemp.textContent = data.list[0].main.temp;
+          con.textContent = data.list[0].weather[0].description;
+          speed.textContent = data.list[0].wind.speed;
+          gust.textContent = data.list[0].wind.gust;
+    
+          
+          curCity.append(city);
+          curTemp.append(currentTemp);
+          now.append(con);
+          windS.append(speed);
+          windG.append(gust);
+    
+          // console.log(searchInputCall);
+          // console.log(data);
+          // console.log(data.city.name);
+    /* #regionmain day 1 */
+          for (var i = 0; i < data.list.length; i++) {
+          // midDay = data.list[i].dt_txt;
+                if(data.list[i].dt_txt.endsWith('15:00:00')){
+                  var mDt = [data.list[i].main.temp];
+                  var mDh = [data.list[i].main.humidity];
+                  var mDw = [data.list[i].wind.speed];
+                  var mDd = [data.list[i].weather[0].main];
+              
+                  // Need date info here, either from this page or from day.js 
+    
+                // Description - will be used pick icoin via if statement
+                  midDayDescription.push(mDd);
+                  oneDesc.textContent = midDayDescription[0];
+                  day1desc.append(oneDesc);
+    
+                  if(midDayDescription[0] == "Clear") {
+                    day1desc.append(cS);
+                  } if(midDayDescription[0] == "Clouds") {
+                    day1desc.append(fC);
+                  } if(midDayDescription[0] == "Rain") {
+                    day1desc.append(rN);
+                  } if(midDayDescription[0] == "Thunderstorm") {
+                    day1desc.append(tS);
+                  } if(midDayDescription[0] == "Snow") {
+                    day1desc.append(snow);
+                  } if(midDayDescription[0] == "Drizzle"){
+                    day1desc.append(mist);
+                  } 
+                  midDay.push(mDt);
+                  oneTemp.textContent = midDay[0];
+                  day1temp.append(oneTemp);
+    
+                  midDayHumidity.push(mDh);
+                  oneHumidity.textContent = midDayHumidity[0];
+                  day1humidity.append(oneHumidity);
+    
+                  midDayWind.push(mDw);
+                  oneWind.textContent = midDayWind[0];
+                  day1wind.append(oneWind);
+                  
+                  /* #endregion */
+    /*#regionmain day2 */
+    
+                  twoDesc.textContent = midDayDescription[1];
+                  day2desc.append(twoDesc);
+    
+                  if(midDayDescription[1] == "Clear") {
+                    day2desc.append(cS);
+                  } if(midDayDescription[1] == "Clouds") {
+                    day2desc.append(fC);
+                  } if(midDayDescription[1] == "Rain") {
+                    day2desc.append(rN);
+                  } if(midDayDescription[1] == "Thunderstorm") {
+                    day2desc.append(tS);
+                  } if(midDayDescription[1] == "Snow") {
+                    day2desc.append(snow);
+                  } if(midDayDescription[1] == "Drizzle"){
+                    day2desc.append(mist);
+                  } 
+               
+                  twoTemp.textContent = midDay[1];
+                  day2temp.append(twoTemp);
+    
+                  twoHumidity.textContent = midDayHumidity[1];
+                  day2humidity.append(twoHumidity);
+    
+                  twoWind.textContent = midDayWind[1];
+                  day2wind.append(twoWind);
+                  /* #endregion */
+    
+    /* #regionmain day 3 */
+    
+                  threeDesc.textContent = midDayDescription[2];
+                  day3desc.append(threeDesc);
+    
+                  if(midDayDescription[2] == "Clear") {
+                    day3desc.append(cS);
+                  } if(midDayDescription[2] == "Clouds") {
+                    day3desc.append(fC);
+                   } if(midDayDescription[2] == "Rain") {
+                    day3desc.append(rN);
+                  } if(midDayDescription[2] == "Thunderstorm") {
+                    day3desc.append(tS);
+                  } if(midDayDescription[2] == "Snow") {
+                    day3desc.append(snow);
+                  } if(midDayDescription[2] == "Drizzle"){
+                    day3desc.append(mist);
+                  } //else { day3desc.textContent = ' '};
+    
+                  threeTemp.textContent = midDay[2];
+                  day3temp.append(threeTemp);
+    
+                  threeHumidity.textContent = midDayHumidity[2];
+                  day3humidity.append(threeHumidity);
+    
+                  threeWind.textContent = midDayWind[2];
+                  day3wind.append(threeWind);
+    /* #endregion */ 
+          
+    /* #regionmain day4 */
+                  fourDesc.textContent = midDayDescription[3];
+                  day4desc.append(fourDesc);
+            
+                  if(midDayDescription[3] == "Clear") {
+                    day4desc.append(cS);
+                  } if(midDayDescription[3] == "Clouds") {
+                    day4desc.append(fC);
+                   } if(midDayDescription[3] == "Rain") {
+                    day4desc.append(rN);
+                  } if(midDayDescription[3] == "Thunderstorm") {
+                    day4desc.append(tS);
+                  } if(midDayDescription[3] == "Snow") {
+                    day4desc.append(snow);
+                  } if(midDayDescription[3] == "Drizzle"){
+                    day4desc.append(mist);
+                  } //else { day4desc.textContent = ' '};
+    
+                  fourTemp.textContent = midDay[3];
+                  day4temp.append(fourTemp);
+    
+                  fourHumidity.textContent = midDayHumidity[3];
+                  day4humidity.append(fourHumidity);
+    
+                  fourWind.textContent = midDayWind[3];
+                  day4wind.append(fourWind);
+    /* #endregion */
+    
+    /* #region Main day 5 */
+    
+                  fiveDesc.textContent = midDayDescription[4];
+                  day5desc.append(fiveDesc);
+    
+                  if(midDayDescription[4] == "Clear") {
+                    day5desc.append(cS);
+                  } if(midDayDescription[4] == "Clouds") {
+                    day5desc.append(fC);
+                  } if(midDayDescription[4] == "Rain") {
+                    day5desc.append(rN);
+                  } if(midDayDescription[4] == "Thunderstorm") {
+                    day5desc.append(tS);
+                  } if(midDayDescription[4] == "Snow") {
+                    day5desc.append(snow);
+                  } if(midDayDescription[4] == "Drizzle"){
+                    day5desc.append(mist);
+                  } //else { day5desc.textContent = ' '};
+    
+                  fiveTemp.textContent = midDay[4];
+                  day5temp.append(fiveTemp);
+    
+                  fiveHumidity.textContent = midDayHumidity[4];
+                  day5humidity.append(fiveHumidity);
+    
+                  fiveWind.textContent = midDayWind[4];
+                  day5wind.append(fiveWind);
+                /* #endregion */
+                
+                } } 
+                
+        } )}
+        resetCurrent1()
+        getApiCurrentFromRecent()
+        console.log(currentCity)
          // will clear the old info so the new info can populate
-      // resetCurrent()
+ 
       // we need an API call that uses the city name that is clicked, instead of the name listed in the search bar
 
    
@@ -404,21 +644,20 @@ function renderSearches () {
         list.removeChild(list.firstElementChild);
  
       };
-  }
-}
+  }}
+
 
 
 
   submitBtn.addEventListener("click", function(event){
+    
   event.preventDefault();
   resetCurrent();
   getApiCurrent();
  
   var searchInputPresent = searchEntry.value.trim();
 
-  if (searchInputPresent === '') {
-    return;
-  }
+
   searches.push(searchInputPresent);
   searchEntry.value = '';
 
